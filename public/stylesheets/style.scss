@@ -1,0 +1,167 @@
+$fromColor: #b499f8;
+$endColor: #54d8c0;
+$navColor: #57738b;
+$fontColor: #daebea;
+$btnColor: #daebea;
+$btnBackgroundColor: #57738b;
+$pFontSize: 1.5rem;
+$h1FontSize: 3rem;
+$navFontSize: 2rem;
+
+body {
+  div.wrap {
+    height: 100vh;
+    background: -webkit-linear-gradient($fromColor, $endColor);
+
+    h1 {
+      font-size: $h1FontSize;
+    }
+    p {
+      font-size: $pFontSize;
+    }
+    .my-button {
+      padding: 0.5rem 1rem;
+      color: $btnColor;
+      background-color: $btnBackgroundColor;
+      border-color: $btnColor;
+      font-size: $pFontSize;
+      border-radius: 10px;
+      &:hover {
+        color: black;
+        border-color: black;
+      }
+    }
+
+    nav.navbar {
+      background-color: $navColor !important;
+      a,
+      a.active {
+        color: $fontColor;
+        font-size: $navFontSize;
+        &:hover {
+          color: black;
+        }
+      }
+
+      ul.dropdown-menu {
+        background-color: $navColor;
+        a.dropdown-item {
+          &:hover {
+            background-color: $navColor;
+          }
+        }
+      }
+    }
+    //  陰影
+    .effect7 {
+      position: relative;
+      -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(0, 0, 0, 0.1) inset;
+      -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(0, 0, 0, 0.1) inset;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(0, 0, 0, 0.1) inset;
+    }
+    .effect7:before,
+    .effect7:after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      top: 0;
+      bottom: 0;
+      left: 10px;
+      right: 10px;
+      -moz-border-radius: 100px / 10px;
+      border-radius: 100px / 10px;
+    }
+    .effect7:after {
+      right: 10px;
+      left: auto;
+      -webkit-transform: skew(8deg) rotate(3deg);
+      -moz-transform: skew(8deg) rotate(3deg);
+      -ms-transform: skew(8deg) rotate(3deg);
+      -o-transform: skew(8deg) rotate(3deg);
+      transform: skew(8deg) rotate(3deg);
+    }
+
+    div.homepage {
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      div.article {
+        padding: 2rem;
+        width: 60vw;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        p {
+          margin-top: 2rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+      div.author {
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: baseline;
+        p {
+          margin: 0 0.5rem;
+        }
+        a {
+          margin: 0 0.5rem;
+          text-decoration: none;
+          color: $fontColor;
+          font-size: $pFontSize;
+          &:hover {
+            color: black !important;
+          }
+        }
+      }
+
+      div.info {
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        div.score {
+          padding-top: 2rem;
+          margin: 0.5rem;
+          display: flex;
+          align-items: center;
+          p {
+            margin: 0 0.5rem;
+          }
+          button {
+            margin: 0 0.5rem;
+          }
+        }
+        div.comment {
+          background-color: $navColor;
+          width: 55vw;
+          padding: 1.5rem;
+          margin-top: 1rem;
+          border-radius: 15px;
+
+          li {
+            display: flex;
+            a {
+              margin: 0 0.5rem;
+              text-decoration: none;
+              color: $fontColor;
+              font-size: $pFontSize;
+              &:hover {
+                color: black;
+              }
+            }
+            p {
+              margin: 0 0.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
