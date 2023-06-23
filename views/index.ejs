@@ -8,43 +8,60 @@
     <div class="wrap">
       <%- include("layout/nav")%>
       <!-- <%- include("layout/message")%> -->
+
       <div class="homepage">
-        <div class="article">
-          <h1>牙籤</h1>
-          <p>
-            有一天牙籤A跟牙籤B在馬路上相遇， 突然一隻刺蝟快速的經過，
-            牙籤A就對牙籤B說 : 乾，我的公車過了...
-          </p>
-        </div>
-        <div class="author">
-          <p>作者:</p>
-          <a href="#">網路文章</a>
-        </div>
-        <button class="my-button">下一則</button>
+        <div class="main">
+          <div class="article">
+            <div class="title">
+              <h1>牙籤</h1>
+              <button class="my-button bubbly-button">
+                <span class="btn"></span> 下一則
+              </button>
+            </div>
 
-        <div class="info">
-          <div class="score">
-            <p>目前分數: 0 分</p>
-
-            <button class="my-button">我要去評分</button>
+            <p>
+              有一天牙籤A跟牙籤B在馬路上相遇， 突然一隻刺蝟快速的經過，
+              牙籤A就對牙籤B說 : 乾，我的公車過了...
+            </p>
           </div>
+          <div class="author">
+            <p>作者:</p>
+            <a href="#">網路文章</a>
+          </div>
+          <button class="my-button bubbly-button">
+            <span class="btn"></span> 下一則
+          </button>
 
-          <div class="comment effect7">
-            <p>留言</p>
-            <ul>
-              <li>
-                <a href="#">網路文章</a>
-                <p>哈哈哈</p>
-              </li>
-              <li>
-                <a href="#">可可</a>
-                <p>我覺得還好</p>
-              </li>
-              <li>
-                <a href="#">大明</a>
-                <p>不好笑</p>
-              </li>
-            </ul>
+          <div class="info">
+            <div class="score">
+              <p>目前分數: 0 分</p>
+
+              <button class="my-button bubbly-button">
+                <span class="btn"></span> 我要去評分
+              </button>
+            </div>
+
+            <div class="comment">
+              <div class="talk-bubble tri-right left-top">
+                <div class="talktext">
+                  <p>留言</p>
+                  <ul>
+                    <li>
+                      <a href="#">網路文章</a>
+                      <p>哈哈哈</p>
+                    </li>
+                    <li>
+                      <a href="#">可可</a>
+                      <p>我覺得還好</p>
+                    </li>
+                    <li>
+                      <a href="#">大明</a>
+                      <p>不好笑</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

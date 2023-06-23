@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("layout/header")%>
+    <title>登入會員</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <%- include("layout/nav")%>
+      <!-- <%- include("layout/message")%> -->
+      <div class="create">
+        <div class="main">
+          <div class="title">
+            <label for="title">標題</label>
+            <input type="text" name="title" id="title" />
+          </div>
+          <div class="content">
+            <label for="article">內容</label>
+            <textarea
+              name="article"
+              id="article"
+              cols="10"
+              rows="10"
+            ></textarea>
+          </div>
+          <div class="submit">
+            <button class="my-button bubbly-button">
+              <span class="btn"></span> 新增文章
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <%- include("layout/footer")%>
+    </div>
+  </body>
+</html>

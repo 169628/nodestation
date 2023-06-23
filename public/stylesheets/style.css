@@ -1,6 +1,13 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body div.wrap {
   height: 100vh;
   background: -webkit-linear-gradient(#b499f8, #54d8c0);
+  overflow-y: scroll;
 }
 body div.wrap h1 {
   font-size: 3rem;
@@ -8,128 +15,497 @@ body div.wrap h1 {
 body div.wrap p {
   font-size: 1.5rem;
 }
-body div.wrap .my-button {
+body div.wrap button.my-button {
   padding: 0.5rem 1rem;
-  color: #daebea;
-  background-color: #57738b;
-  border-color: #daebea;
-  font-size: 1.5rem;
-  border-radius: 10px;
-}
-body div.wrap .my-button:hover {
   color: black;
-  border-color: black;
+  background: transparent;
+  border: dashed 2px black;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  font-size: 1.5rem;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
 }
-body div.wrap nav.navbar {
-  background-color: #57738b !important;
+body div.wrap button.my-button span {
+  height: 100%;
+  width: 0;
+  position: absolute;
+  background-color: #73b7f8;
+  transition: 0.5s;
+  z-index: -1;
+  left: 0;
+  bottom: 0;
 }
-body div.wrap nav.navbar a,
-body div.wrap nav.navbar a.active {
-  color: #daebea;
+body div.wrap button.my-button:hover span {
+  width: 100%;
+}
+body div.wrap input {
+  font-size: 1.5rem;
+  padding: 0 0.5rem;
+  margin-left: 0.5rem;
+  background-color: transparent;
+  height: 40px;
+  width: 200px;
+  border: dashed 2px black;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap nav {
+  height: 80px;
+  background-color: #f0f5f5;
+  padding: 1rem;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+body div.wrap nav a {
+  padding: 1rem;
+  text-decoration: none;
+  color: black;
   font-size: 2rem;
 }
-body div.wrap nav.navbar a:hover,
-body div.wrap nav.navbar a.active:hover {
-  color: black;
+body div.wrap nav a:hover {
+  color: #8e669e;
 }
-body div.wrap nav.navbar ul.dropdown-menu {
-  background-color: #57738b;
+body div.wrap nav ul {
+  list-style: none;
+  display: flex;
 }
-body div.wrap nav.navbar ul.dropdown-menu a.dropdown-item:hover {
-  background-color: #57738b;
-}
-body div.wrap .effect7 {
+body div.wrap nav ul li {
   position: relative;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 }
-body div.wrap .effect7:before,
-body div.wrap .effect7:after {
-  content: "";
+body div.wrap nav ul li:hover div.dropdown_menu {
+  width: 200px;
+  display: block;
   position: absolute;
-  z-index: -1;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-  top: 0;
-  bottom: 0;
-  left: 10px;
-  right: 10px;
-  border-radius: 100px/10px;
+  right: -4px;
+  background-color: #f0f5f5;
 }
-body div.wrap .effect7:after {
-  right: 10px;
-  left: auto;
-  transform: skew(8deg) rotate(3deg);
+body div.wrap nav ul li:hover div.dropdown_menu ul {
+  display: flex;
+  flex-direction: column;
+}
+body div.wrap nav ul li:hover div.dropdown_menu ul li {
+  margin: 0.5rem 0;
+  padding: 0 0.5rem;
+}
+body div.wrap nav ul li:hover div.dropdown_menu ul li a {
+  font-size: 1.5rem;
+}
+body div.wrap nav ul li div.dropdown_menu {
+  display: none;
 }
 body div.wrap div.homepage {
-  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-body div.wrap div.homepage div.article {
+body div.wrap div.homepage div.main {
+  margin-top: 150px;
   padding: 2rem;
-  width: 60vw;
+  background: transparent;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: solid 7px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap div.homepage div.main div.article {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-body div.wrap div.homepage div.article p {
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
+body div.wrap div.homepage div.main div.article div.title {
+  display: flex;
+  align-items: center;
 }
-body div.wrap div.homepage div.author {
-  margin-bottom: 2rem;
+body div.wrap div.homepage div.main div.article div.title h1 {
+  margin: 0 0.5rem;
+}
+body div.wrap div.homepage div.main div.article div.title button {
+  margin: 0 0.5rem;
+}
+body div.wrap div.homepage div.main div.article p {
+  margin-top: 1rem;
+}
+body div.wrap div.homepage div.main div.author {
+  margin-bottom: 1rem;
   display: flex;
   align-items: baseline;
 }
-body div.wrap div.homepage div.author p {
+body div.wrap div.homepage div.main div.author p {
   margin: 0 0.5rem;
 }
-body div.wrap div.homepage div.author a {
+body div.wrap div.homepage div.main div.author a {
   margin: 0 0.5rem;
   text-decoration: none;
-  color: #daebea;
+  color: #550afe;
   font-size: 1.5rem;
 }
-body div.wrap div.homepage div.author a:hover {
-  color: black !important;
+body div.wrap div.homepage div.main div.author a:hover {
+  color: #f0f5f5;
 }
-body div.wrap div.homepage div.info {
+body div.wrap div.homepage div.main div.info {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-body div.wrap div.homepage div.info div.score {
+body div.wrap div.homepage div.main div.info div.score {
   padding-top: 2rem;
   margin: 0.5rem;
   display: flex;
   align-items: center;
 }
-body div.wrap div.homepage div.info div.score p {
+body div.wrap div.homepage div.main div.info div.score p {
   margin: 0 0.5rem;
 }
-body div.wrap div.homepage div.info div.score button {
+body div.wrap div.homepage div.main div.info div.score button {
   margin: 0 0.5rem;
 }
-body div.wrap div.homepage div.info div.comment {
-  background-color: #57738b;
-  width: 55vw;
+body div.wrap div.homepage div.main div.info div.comment {
+  width: 46vw;
   padding: 1.5rem;
   margin-top: 1rem;
-  border-radius: 15px;
 }
-body div.wrap div.homepage div.info div.comment li {
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right,
+body div.wrap div.homepage div.main div.info div.comment div.left-top {
+  margin: 40px;
+  display: inline-block;
+  position: relative;
+  width: 40vw;
+  height: auto;
+  background-color: #73b7f8;
+  border: 8px solid #41403e;
+}
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble::before,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right::before,
+body div.wrap div.homepage div.main div.info div.comment div.left-top::before {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -40px;
+  right: auto;
+  top: -8px;
+  bottom: auto;
+  border: 32px solid;
+  border-color: #41403e transparent transparent transparent;
+}
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble::after,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right::after,
+body div.wrap div.homepage div.main div.info div.comment div.left-top::after {
+  content: " ";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: -20px;
+  right: auto;
+  top: 0px;
+  bottom: auto;
+  border: 22px solid;
+  border-color: #73b7f8 transparent transparent transparent;
+}
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext,
+body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext {
+  padding: 1em;
+  text-align: left;
+  line-height: 1.5em;
+}
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul,
+body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul {
+  margin-top: 1rem;
+}
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul li,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul li,
+body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul li {
+  margin: 0.5rem 0;
   display: flex;
 }
-body div.wrap div.homepage div.info div.comment li a {
-  margin: 0 0.5rem;
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul li a,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul li a,
+body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul li a {
   text-decoration: none;
-  color: #daebea;
+  color: #550afe;
   font-size: 1.5rem;
 }
-body div.wrap div.homepage div.info div.comment li a:hover {
-  color: black;
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul li a:hover,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul li a:hover,
+body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul li a:hover {
+  color: #f0f5f5;
 }
-body div.wrap div.homepage div.info div.comment li p {
+body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul li p,
+body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul li p,
+body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul li p {
   margin: 0 0.5rem;
+}
+body div.wrap div.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body div.wrap div.login div.main {
+  margin-top: 150px;
+  padding: 4rem 2rem;
+  background: transparent;
+  width: 50vw;
+  border: solid 7px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap div.login div.main ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+}
+body div.wrap div.login div.main ul li {
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+body div.wrap div.login div.main ul li a {
+  padding: 1.5rem;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+  font-size: 1.5rem;
+}
+body div.wrap div.login div.main ul li a i {
+  margin-right: 1rem;
+  color: yellow;
+  font-size: 3rem;
+}
+body div.wrap div.register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body div.wrap div.register div.main {
+  margin-top: 150px;
+  padding: 4rem 2rem;
+  background: transparent;
+  width: 50vw;
+  border: solid 7px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap div.register div.main ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+}
+body div.wrap div.register div.main ul li {
+  display: flex;
+  align-items: center;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+}
+body div.wrap div.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body div.wrap div.user div.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  margin-top: 150px;
+  padding: 4rem 2rem;
+  background: transparent;
+  width: 50vw;
+  border: solid 7px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap div.user div.main div.article {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+body div.wrap div.user div.main div.article h1 {
+  margin: 0 0.5rem;
+}
+body div.wrap div.user div.main div.article button {
+  margin: 0 0.5rem;
+}
+body div.wrap div.user div.main p {
+  margin: 1rem 0;
+}
+body div.wrap div.user div.main table {
+  margin: 1rem 0;
+}
+body div.wrap div.user div.main table tr {
+  margin: 1rem 0;
+}
+body div.wrap div.user div.main table tr td {
+  padding: 0.5rem;
+}
+body div.wrap div.user div.main table tr td a {
+  text-decoration: none;
+  color: #550afe;
+}
+body div.wrap div.user div.main table tr td a:hover {
+  color: #f0f5f5;
+}
+body div.wrap div.create {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body div.wrap div.create div.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  margin-top: 150px;
+  padding: 4rem 2rem;
+  background: transparent;
+  width: 50vw;
+  border: solid 7px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap div.create div.main div.title {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+body div.wrap div.create div.main div.content {
+  width: 80%;
+  display: flex;
+  align-items: flex-start;
+  margin: 1rem 0;
+  flex-basis: 50px;
+}
+body div.wrap div.create div.main div.content label {
+  flex-grow: 1;
+  text-align: center;
+}
+body div.wrap div.create div.main div.content textarea {
+  padding: 0.5rem 0.5rem;
+  flex-grow: 9;
+  background-color: transparent;
+  border: dashed 2px black;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+  font-size: 1.5rem;
+}
+body div.wrap div.create div.main div.submit {
+  margin: 1rem 0;
+}
+body div.wrap div.save {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body div.wrap div.save div.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  margin-top: 150px;
+  padding: 4rem 2rem;
+  background: transparent;
+  width: 50vw;
+  border: solid 7px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap div.save div.main table {
+  margin: 1rem 0;
+}
+body div.wrap div.save div.main table tr {
+  margin: 1rem 0;
+}
+body div.wrap div.save div.main table tr td {
+  padding: 0.5rem;
+}
+body div.wrap div.save div.main table tr td a {
+  text-decoration: none;
+  color: #550afe;
+}
+body div.wrap div.save div.main table tr td a:hover {
+  color: #f0f5f5;
+}
+body div.wrap div.follow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body div.wrap div.follow div.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+  font-size: 1.5rem;
+  margin-top: 150px;
+  padding: 4rem 2rem;
+  background: transparent;
+  width: 50vw;
+  border: solid 7px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap div.follow div.main table {
+  margin: 1rem 0;
+}
+body div.wrap div.follow div.main table tr {
+  margin: 1rem 0;
+}
+body div.wrap div.follow div.main table tr td {
+  padding: 0.5rem;
+}
+body div.wrap div.follow div.main table tr td a {
+  text-decoration: none;
+  color: #550afe;
+}
+body div.wrap div.follow div.main table tr td a:hover {
+  color: #f0f5f5;
+}
+body div.wrap div.update {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body div.wrap div.update div.main {
+  margin-top: 150px;
+  padding: 4rem 2rem;
+  background: transparent;
+  width: 50vw;
+  border: solid 7px #41403e;
+  box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
+  border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+}
+body div.wrap div.update div.main ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  list-style: none;
+}
+body div.wrap div.update div.main ul li {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+  font-size: 1.5rem;
 }/*# sourceMappingURL=style.css.map */

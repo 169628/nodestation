@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("layout/header")%>
+    <title>登入會員</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <%- include("layout/nav")%>
+      <!-- <%- include("layout/message")%> -->
+      <div class="login">
+        <div class="main effect7">
+          <ul>
+            <li>
+              <a class="google" href="#"
+                ><i class="fa-brands fa-google"></i> 以 Google 帳號登入</a
+              >
+            </li>
+            <li>
+              <label for="mail">信箱</label>
+              <input type="email" name="mail" id="mail" />
+            </li>
+            <li>
+              <label for="password">密碼</label>
+              <input type="text" name="password" id="password" />
+            </li>
+            <li>
+              <button class="my-button click">
+                <span class="btn"></span> 登入
+              </button>
+              <button class="my-button click">
+                <span class="btn"></span> 忘記密碼
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <%- include("layout/footer")%>
+    </div>
+  </body>
+</html>
