@@ -34,4 +34,12 @@ router.get("/update", function (req, res, next) {
   res.render("update");
 });
 
+router.get("/password", function (req, res, next) {
+  res.render("password");
+});
+
+router.get("/score", function (req, res, next) {
+  res.render("score");
+});
+
 module.exports = router;

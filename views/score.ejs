@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("layout/header")%>
+    <title>登入會員</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <%- include("layout/nav")%>
+      <!-- <%- include("layout/message")%> -->
+      <div class="create">
+        <div class="main">
+          <p>為"蝸牛"評分</p>
+          <div class="rating">
+            <input type="radio" name="rating" id="rating-5" />
+            <label for="rating-5"></label>
+            <input type="radio" name="rating" id="rating-4" />
+            <label for="rating-4"></label>
+            <input type="radio" name="rating" id="rating-3" />
+            <label for="rating-3"></label>
+            <input type="radio" name="rating" id="rating-2" />
+            <label for="rating-2"></label>
+            <input type="radio" name="rating" id="rating-1" />
+            <label for="rating-1"></label>
+          </div>
+          <div class="content">
+            <label for="article">留言</label>
+            <textarea
+              name="article"
+              id="article"
+              cols="10"
+              rows="10"
+            ></textarea>
+          </div>
+          <div class="submit">
+            <button class="my-button bubbly-button">
+              <span class="btn"></span> 送出
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <%- include("layout/footer")%>
+    </div>
+  </body>
+</html>
