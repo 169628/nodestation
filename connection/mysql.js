@@ -15,6 +15,7 @@ let query = function (sql, values) {
       if (err) {
         reject(err);
       } else {
+        console.log("mysql connected!!");
         connection.query(sql, values, (err, rows) => {
           if (err) {
             reject(err);

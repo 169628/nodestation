@@ -26,7 +26,6 @@ passport.use(
 
         // 註冊
         if (searchResult.length == 0) {
-          console.log("要註冊");
           // object 變 array
           let dbData = [];
           for (let key in googleUser) {

@@ -33,6 +33,25 @@ const allValidation = {
     });
     return schema.validate(data);
   },
+  createArticle: (data) => {
+    const schema = Joi.object({
+      title: Joi.string().min(1).max(40).required(),
+      article: Joi.string().min(1).max(290).required(),
+    });
+    return schema.validate(data);
+  },
+  leaveComment: (data) => {
+    const schema = Joi.object({
+      content: Joi.string().min(1).max(300).required(),
+    });
+    return schema.validate(data);
+  },
+  score: (data) => {
+    const schema = Joi.object({
+      score: Joi.number().min(1).max(5).required(),
+    });
+    return schema.validate(data);
+  },
 };
 
 module.exports = allValidation;

@@ -99,10 +99,16 @@ const userController = {
         if (error) {
           return next(errorMessage(400, error.details[0].message, error));
         }
-        // 準備 update 的新資料
+        // 不是本人不能修改
         const searchResult = await query(
           `select * from users where _id = ${userId}`
         );
+        if (searchResult[0]._id != userId) {
+          return next(
+            errorMessage(400, "You do not have permission to update")
+          );
+        }
+        // 準備 update 的資料
         const updateData = {
           username:
             checkData.name == undefined
@@ -121,10 +127,11 @@ const userController = {
               ? searchResult[0].about_me
               : checkData.aboutMe,
         };
-        const result = await query(
+        // 更新
+        const updateResult = await query(
           `update users set username="${updateData.username}", email="${updateData.email}", password="${updateData.password}", about_me="${updateData.about_me}" where _id=${userId}`
         );
-        if (result.protocol41) {
+        if (updateResult.protocol41) {
           updateData._id = userId;
           delete updateData.password;
           return successMessage(res, 201, "update user", updateData);
@@ -144,6 +151,7 @@ const userController = {
       // 確認 token 是否為本人
       if (req.params.user_id == req.user._id) {
         userId = req.params.user_id;
+        // 確認是否有該使用者
         const searchResult = await query(
           `select * from users where _id = ${userId}`
         );
@@ -156,6 +164,7 @@ const userController = {
             errorMessage(400, "You do not have permission to delete")
           );
         }
+        // 刪除帳號
         const deleteResult = await query(
           `delete from users where _id = ${userId}`
         );

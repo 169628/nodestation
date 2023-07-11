@@ -8,6 +8,9 @@ require("./modules/passport");
 const pageRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
+const articleRouter = require("./routes/article");
+
+const mongoosedb = require("./connection/mongoose");
 
 var app = express();
 
@@ -26,6 +29,7 @@ app.use("/", pageRouter);
 // 所有 api
 app.use("/api/user", userRouter);
 app.use("/api", authRouter);
+app.use("/api/article", articleRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -36,7 +40,6 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
   // only providing error data in development
   process.env.NODE_ENV === "dev" ? err.message : (err.message = {});
-
   res.status(err.status || 500).send(err.message);
 });
 
