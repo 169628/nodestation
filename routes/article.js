@@ -11,7 +11,7 @@ router.get("/one/:article_id", articleController.getOneArticle);
 // 隨機取得文章
 router.get("/", articleController.getArticle);
 // 新增文章
-router.post("/:user_id", jwtToken.checkToken, articleController.createArticle);
+router.post("/", jwtToken.checkToken, articleController.createArticle);
 // 留言
 router.post(
   "/comment/:article_id",

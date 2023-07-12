@@ -89,40 +89,34 @@ const articleController = {
   },
   // 新增文章
   createArticle: async (req, res, next) => {
-    const { title, article } = req.body;
-    let userId;
     try {
-      // 確認 token 是否為本人
-      if (req.params.user_id == req.user._id) {
-        userId = req.params.user_id;
-        // 檢查格式是否正確
-        let { error } = allValidation.createArticle({ title, article });
-        if (error) {
-          return next(errorMessage(400, error.details[0].message, error));
-        }
-        // 檢查帳號是否存在
-        const searchResult = await query(
-          `select * from users where _id = ${userId}`
-        );
-        if (searchResult.length == 0) {
-          return next(errorMessage(400, "can't find user"));
-        }
-        // 更新
-        const createResult = await query(
-          `insert into articles( title, user_id, content ) values("${title}",${userId},"${article}")`
-        );
-        if (createResult.protocol41) {
-          const data = {
-            article_id: createResult.insertId,
-            title,
-            article,
-          };
-          return successMessage(res, 201, "create article", data);
-        }
+      const { title, article } = req.body;
+      const userId = req.user._id;
+      // 檢查格式是否正確
+      let { error } = allValidation.createArticle({ title, article });
+      if (error) {
+        return next(errorMessage(400, error.details[0].message, error));
+      }
+      // 檢查帳號是否存在
+      const searchResult = await query(
+        `select * from users where _id = ${userId}`
+      );
+      if (searchResult.length == 0) {
+        return next(errorMessage(400, "can't find user"));
+      }
+      // 新増
+      const createResult = await query(
+        `insert into articles( title, user_id, content ) values("${title}",${userId},"${article}")`
+      );
+      if (!createResult.protocol41) {
         return next(errorMessage(400, "create failed"));
       }
-      // token 非本人回傳錯誤
-      return next(errorMessage(400, "please login"));
+      const data = {
+        article_id: createResult.insertId,
+        title,
+        article,
+      };
+      return successMessage(res, 201, "create article", data);
     } catch (err) {
       return next(errorMessage(500, "Server error", err));
     }
