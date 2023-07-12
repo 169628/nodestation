@@ -136,7 +136,7 @@ const userController = {
   // 刪除會員
   deleteUser: async (req, res, next) => {
     try {
-      const userId = req.user_id;
+      const userId = req.user._id;
       // 確認是否有該使用者
       const searchResult = await query(
         `select * from users where _id = ${userId}`

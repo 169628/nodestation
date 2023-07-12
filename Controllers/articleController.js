@@ -199,18 +199,18 @@ const articleController = {
       if (searchArticle.length == 0) {
         return next(errorMessage(400, "can't find article"));
       }
-      let updateScore;
+      score = Number(score);
+      let updateScore = score;
       if (searchArticle[0].score != null) {
-        score = Number(score);
         updateScore = Math.floor((score + searchArticle[0].score) / 2);
       }
       const update = await query(
         `update articles set score= ${updateScore} where _id = ${articleId}`
       );
-      if (update.protocol41) {
-        return successMessage(res, 201, "score", score);
+      if (!update.protocol41) {
+        return next(errorMessage(400, "score failed"));
       }
-      return next(errorMessage(400, "score failed"));
+      return successMessage(res, 201, "score", score);
     } catch (err) {
       return next(errorMessage(500, "Server error", err));
     }
