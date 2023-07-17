@@ -7,22 +7,19 @@ const successMessage = require("../modules/successMessage");
 const articleController = {
   // 取得 user 文章
   getUserArticles: async (req, res, next) => {
-    const userId = req.params.user_id;
     try {
+      const userId = req.params.user_id;
       // 檢查 user 是否存在
       let searchResult = await query(
-        `select username, about_me from users where _id = ${userId}`
+        `select _id, username, about_me from users where _id = ${userId}`
       );
       if (searchResult.length == 0) {
-        return next(errorMessage(400, "can't find user"));
+        return next(errorMessage(400, "can not find user"));
       }
       // 尋找文章
       const articleResult = await query(
         `select * from articles where user_id = ${userId}`
       );
-      if (articleResult.length == 0) {
-        return next(errorMessage(400, "can not find any article"));
-      }
       searchResult[0].article = articleResult;
       return successMessage(res, 200, "get user article", searchResult[0]);
     } catch (err) {
@@ -31,24 +28,18 @@ const articleController = {
   },
   // 取得文章
   getOneArticle: async (req, res, next) => {
-    const articleId = req.params.article_id;
     try {
+      const articleId = req.params.article_id;
       // 檢查文章是否存在
       let articleResult = await query(
-        `select * from articles where _id = ${articleId}`
+        `select title, content, username, user_id, score from articles left join users on articles.user_id = users._id where articles._id = ${articleId}`
       );
       if (articleResult.length == 0) {
         return next(errorMessage(400, "can't find article"));
       }
-      // 檢查帳號是否存在
-      const userResult = await query(
-        `select _id, username from users where _id = ${articleResult[0].user_id}`
-      );
-      if (userResult.length == 0) {
-        return next(errorMessage(400, "can't find user"));
-      }
+      // 加上 comment
       const comment = await Comment.find({ article_id: articleId });
-      articleResult[0].user_id = userResult;
+      articleResult[0].article_id = articleId;
       articleResult[0].comment = comment;
       return successMessage(res, 200, "get one article", articleResult[0]);
     } catch (err) {
@@ -69,7 +60,7 @@ const articleController = {
         `select _id, username from users where _id = ${articleResult[randomIndex].user_id}`
       );
       if (userResult.length == 0) {
-        return next(errorMessage(400, "can't find user"));
+        return next(errorMessage(400, "can not find user"));
       }
       // 查尋留言
       const comment = await Comment.find({
@@ -102,7 +93,7 @@ const articleController = {
         `select * from users where _id = ${userId}`
       );
       if (searchResult.length == 0) {
-        return next(errorMessage(400, "can't find user"));
+        return next(errorMessage(400, "can not find user"));
       }
       // 新増
       const createResult = await query(
@@ -123,10 +114,10 @@ const articleController = {
   },
   // 留言
   leaveComment: async (req, res, next) => {
-    const articleId = req.params.article_id;
-    const userId = req.user._id;
-    const { content } = req.body;
     try {
+      const articleId = req.params.article_id;
+      const userId = req.user._id;
+      const { content } = req.body;
       // 檢查格式是否正確
       let { error } = allValidation.leaveComment({ content });
       if (error) {
@@ -137,14 +128,14 @@ const articleController = {
         `select * from articles where _id = ${articleId}`
       );
       if (searchArticle.length == 0) {
-        return next(errorMessage(400, "can't find article"));
+        return next(errorMessage(400, "can not find article"));
       }
       // 檢查帳號是否存在
       const searchResult = await query(
         `select username from users where _id = ${userId}`
       );
       if (searchResult.length == 0) {
-        return next(errorMessage(400, "can't find user"));
+        return next(errorMessage(400, "can not find user"));
       }
       // 尋找此文章是否已有留言
       const searchComment = await Comment.find({ article_id: articleId });
@@ -184,9 +175,9 @@ const articleController = {
   },
   //評分
   score: async (req, res, next) => {
-    const articleId = req.params.article_id;
-    let { score } = req.body;
     try {
+      const articleId = req.params.article_id;
+      let { score } = req.body;
       // 檢查格式是否正確
       let { error } = allValidation.score({ score });
       if (error) {
@@ -197,8 +188,9 @@ const articleController = {
         `select * from articles where _id = ${articleId}`
       );
       if (searchArticle.length == 0) {
-        return next(errorMessage(400, "can't find article"));
+        return next(errorMessage(400, "can not find article"));
       }
+      // 文章存在，打分数
       score = Number(score);
       let updateScore = score;
       if (searchArticle[0].score != null) {
@@ -217,14 +209,14 @@ const articleController = {
   },
   // 刪除文章
   deleteArticle: async (req, res, next) => {
-    const articleId = req.params.article_id;
     try {
+      const articleId = req.params.article_id;
       // 確認是否有該文章
       const searchResult = await query(
         `select * from articles where _id = ${articleId}`
       );
       if (searchResult.length == 0) {
-        return next(errorMessage(400, "can't find article"));
+        return next(errorMessage(400, "can not find article"));
       }
       // 不是本人不能刪
       if (searchResult[0].user_id != req.user._id) {
@@ -242,10 +234,10 @@ const articleController = {
       const deleteResult = await query(
         `delete from articles where _id = ${articleId}`
       );
-      if (deleteResult.protocol41) {
-        return successMessage(res, 204);
+      if (!deleteResult.protocol41) {
+        return next(errorMessage(400, "delete failed"));
       }
-      return next(errorMessage(400, "delete failed"));
+      return successMessage(res, 204);
     } catch (err) {
       return next(errorMessage(500, "Server error", err));
     }

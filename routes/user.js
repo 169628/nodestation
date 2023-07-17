@@ -22,5 +22,15 @@ router.delete(
   jwtToken.checkToken,
   userController.deleteSave
 );
+// 取得已追蹤名単
+router.get("/follow", jwtToken.checkToken, userController.getFollowed);
+// 追蹤
+router.post("/follow/:user_id", jwtToken.checkToken, userController.follow);
+// 刪除已追蹤
+router.delete(
+  "/follow/:user_id",
+  jwtToken.checkToken,
+  userController.deleteFollow
+);
 
 module.exports = router;

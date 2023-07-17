@@ -4,17 +4,17 @@ const commentSchema = new mongoose.Schema(
   {
     article_id: {
       type: Number,
-      required: [true, "article_id not allowed to be empty"],
+      required: [true, "article_id is not allowed to be empty"],
     },
     comment: [
       {
         user_id: {
           type: Number,
-          required: [true, "user_id not allowed to be empty"],
+          required: [true, "user_id is not allowed to be empty"],
         },
         username: {
           type: String,
-          required: [true, "username not allowed to be empty"],
+          required: [true, "username is not allowed to be empty"],
         },
         content: {
           type: String,

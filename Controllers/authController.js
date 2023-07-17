@@ -10,13 +10,13 @@ const jwtToken = require("../modules/jwtToken");
 const authController = {
   // 登入
   login: async (req, res, next) => {
-    const { mail, password } = req.body;
-    // 檢查格式是否正確
-    let { error } = allValidation.login({ mail, password });
-    if (error) {
-      return next(errorMessage(400, error.details[0].message, error));
-    }
     try {
+      const { mail, password } = req.body;
+      // 檢查格式是否正確
+      let { error } = allValidation.login({ mail, password });
+      if (error) {
+        return next(errorMessage(400, error.details[0].message, error));
+      }
       // 檢查是否已註冊
       const searchResult = await query(
         `select * from users where email = "${mail}"`
@@ -42,7 +42,8 @@ const authController = {
           username: searchResult[0].username,
         },
         200,
-        res
+        res,
+        next
       );
     } catch (err) {
       return next(errorMessage(500, "login failed", err));
@@ -50,14 +51,13 @@ const authController = {
   },
   // 忘記密碼
   forgetPassword: async (req, res, next) => {
-    const { mail } = req.body;
-    // 檢查格式是否正確
-    let { error } = allValidation.forgetPassword({ mail });
-    if (error) {
-      return next(errorMessage(400, error.details[0].message, error));
-    }
-
     try {
+      const { mail } = req.body;
+      // 檢查格式是否正確
+      let { error } = allValidation.forgetPassword({ mail });
+      if (error) {
+        return next(errorMessage(400, error.details[0].message, error));
+      }
       // 檢查是否已註冊
       const searchResult = await query(
         `select * from users where email = "${mail}"`
@@ -77,13 +77,14 @@ const authController = {
       }
       // 修改並寄送新密碼
       const password = uuidv4().substr(0, 6);
-      const dbData = await bcrypt.hash(password, 12);
+      const updatePassword = await bcrypt.hash(password, 12);
       const updateResult = await query(
-        `update users set password = "${dbData}"  where _id = ${searchResult[0]._id}`
+        `update users set password = "${updatePassword}"  where _id = ${searchResult[0]._id}`
       );
-      if (updateResult.protocol41) {
-        return mailSender(res, 201, mail, password, mail, next);
+      if (!updateResult.protocol41) {
+        return next(errorMessage(400, "database change password failed"));
       }
+      return mailSender(res, 201, mail, password, mail, next);
     } catch (err) {
       return next(errorMessage(500, "Server error", err));
     }

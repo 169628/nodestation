@@ -25,7 +25,7 @@ const allValidation = {
   },
   update: (data) => {
     const schema = Joi.object({
-      name: Joi.string().max(40),
+      name: Joi.string().min(1).max(40),
       mail: Joi.string().email().max(100),
       password: Joi.string().pattern(new RegExp("^[a-zA-Z0-9!@#&%_]{6,20}$")),
       repeatPassword: Joi.ref("password"),
