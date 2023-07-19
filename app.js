@@ -3,14 +3,16 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const cors = require("cors");
+require("./connection/mongoose");
 require("./modules/passport");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSetting = require("./modules/swagger");
+
 const pageRouter = require("./routes/index");
 const userRouter = require("./routes/user");
 const authRouter = require("./routes/auth");
 const articleRouter = require("./routes/article");
-
-const mongoosedb = require("./connection/mongoose");
 
 var app = express();
 
@@ -23,6 +25,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSetting));
 
 // 所有頁面
 app.use("/", pageRouter);

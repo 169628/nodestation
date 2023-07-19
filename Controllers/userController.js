@@ -22,15 +22,6 @@ const userController = {
       const searchResult = await query(
         `select * from users where email = "${mail}"`
       );
-      // 以 google 第三方登入的使用者
-      if (searchResult[0].google_id != null) {
-        return next(
-          errorMessage(
-            400,
-            "This mail is already registered, please login with google"
-          )
-        );
-      }
       // 已註冊回傳錯誤
       if (searchResult.length != 0) {
         return next(
@@ -150,6 +141,14 @@ const userController = {
         return next(errorMessage(400, "You do not have permission to delete"));
       }
       // 刪除帳號
+      // 先找追蹤刪掉
+      const follow = await Follow.find({ user_id: userId });
+      if (follow.length != 0) {
+        await Follow.deleteMany({
+          user_id: userId,
+        });
+      }
+      // 刪除會員
       const deleteResult = await query(
         `delete from users where _id = ${userId}`
       );
@@ -209,7 +208,7 @@ const userController = {
         return next(errorMessage(400, "save failed"));
       }
       searchResult[0].save = searchArticle;
-      return successMessage(res, 200, "saved article", searchResult[0]);
+      return successMessage(res, 201, "saved article", searchResult[0]);
     } catch (err) {
       return next(errorMessage(500, "Server error", err));
     }
