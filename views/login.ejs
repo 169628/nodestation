@@ -7,36 +7,81 @@
   <body>
     <div class="wrap">
       <%- include("layout/nav")%>
-      <!-- <%- include("layout/message")%> -->
       <div class="login">
-        <div class="main effect7">
-          <ul>
-            <li>
-              <a class="google" href="/api/google"
-                ><i class="fa-brands fa-google"></i> 以 Google 帳號登入</a
-              >
-            </li>
-            <li>
-              <label for="mail">信箱</label>
-              <input type="email" name="mail" id="mail" />
-            </li>
-            <li>
-              <label for="password">密碼</label>
-              <input type="text" name="password" id="password" />
-            </li>
-            <li>
-              <button class="my-button click">
-                <span class="btn"></span> 登入
-              </button>
-              <button class="my-button click">
-                <span class="btn"></span> 忘記密碼
-              </button>
-            </li>
-          </ul>
+        <div id="app" class="main">
+          <main_login></main_login>
         </div>
       </div>
-
-      <%- include("layout/footer")%>
     </div>
+
+    <script type="text/x-template" id="main_template">
+      <ul>
+        <li>
+          <a class="google" href="/api/google"
+            ><i class="fa-brands fa-google"></i> 以 Google 帳號登入</a
+          >
+        </li>
+        <li>
+          <label for="mail">信箱</label>
+          <input v-model="mail" type="email" name="mail" id="mail" />
+        </li>
+        <li>
+          <label for="password">密碼</label>
+          <input v-model="password" type="password" name="password" id="password" />
+        </li>
+        <li>
+          <button v-on:click="btn_login" class="my-button click">
+            <span class="btn"></span> 登入
+          </button>
+          <button v-on:click="btn_password" class="my-button click">
+            <span class="btn"></span> 忘記密碼
+          </button>
+        </li>
+      </ul>
+    </script>
+
+    <script>
+      const app = Vue.createApp().component("main_login", {
+        data() {
+          return {
+            mail: "",
+            password: "",
+          };
+        },
+        methods: {
+          btn_login() {
+            axios
+              .post("/api/login", {
+                mail: this.mail,
+                password: this.password,
+              })
+              .then((res) => {
+                if (res.status === 200) {
+                  localStorage.setItem(
+                    "Authorization",
+                    JSON.stringify(res.data.data.token)
+                  );
+                  localStorage.setItem(
+                    "userId",
+                    JSON.stringify(res.data.data.userData._id)
+                  );
+                  alert("登入成功!");
+                  location.href = "/";
+                }
+              })
+              .catch((err) => {
+                const message = err.response.data.split("錯誤詳細描述")[0];
+                alert(message + "登入失敗，請重新登入!");
+                location.reload();
+              });
+          },
+          btn_password() {
+            location.href = "/password";
+          },
+        },
+        template: "#main_template",
+      });
+      app.mount("#app");
+    </script>
   </body>
 </html>

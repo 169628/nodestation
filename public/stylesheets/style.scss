@@ -70,7 +70,7 @@ body {
       margin-left: 0.5rem;
       background-color: $btnBackgroundColor;
       height: 40px;
-      width: 200px;
+      width: 300px;
       border: dashed 2px $btnColor;
       box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
       border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
@@ -135,6 +135,11 @@ body {
       top: 130px;
       left: 500px;
       color: red;
+    }
+
+    div.loading {
+      margin-top: 250px;
+      text-align: center;
     }
 
     div.rating {
@@ -231,82 +236,84 @@ body {
           }
         }
 
-        div.info {
+        div.score {
+          display: flex;
+          align-items: center;
+          padding-top: 2rem;
+          margin: 0.5rem;
+          display: flex;
+          justify-content: center;
+
+          p {
+            margin: 0 0.5rem;
+          }
+          button {
+            margin: 0 0.5rem;
+          }
+        }
+
+        div.comment {
           margin-top: 2rem;
           display: flex;
           flex-direction: column;
           align-items: center;
-          div.score {
-            padding-top: 2rem;
-            margin: 0.5rem;
-            display: flex;
-            align-items: center;
-            p {
-              margin: 0 0.5rem;
+          width: 46vw;
+          padding: 1.5rem;
+          margin-top: 1rem;
+          // border: 1px solid black;
+          div.talk-bubble,
+          div.tri-right,
+          div.left-top {
+            margin: 20px;
+            display: inline-block;
+            position: relative;
+            width: 40vw;
+            height: auto;
+            background-color: $commentColor;
+            border: 8px solid #41403e;
+            &::before {
+              content: " ";
+              position: absolute;
+              width: 0;
+              height: 0;
+              left: -40px;
+              right: auto;
+              top: -8px;
+              bottom: auto;
+              border: 32px solid;
+              border-color: #41403e transparent transparent transparent;
             }
-            button {
-              margin: 0 0.5rem;
+            &::after {
+              content: " ";
+              position: absolute;
+              width: 0;
+              height: 0;
+              left: -20px;
+              right: auto;
+              top: 0px;
+              bottom: auto;
+              border: 22px solid;
+              border-color: $commentColor transparent transparent transparent;
             }
-          }
-          div.comment {
-            width: 46vw;
-            padding: 1.5rem;
-            margin-top: 1rem;
-            // border: 1px solid black;
-            div.talk-bubble,
-            div.tri-right,
-            div.left-top {
-              margin: 20px;
-              display: inline-block;
-              position: relative;
-              width: 40vw;
-              height: auto;
-              background-color: $commentColor;
-              border: 8px solid #41403e;
-              &::before {
-                content: " ";
-                position: absolute;
-                width: 0;
-                height: 0;
-                left: -40px;
-                right: auto;
-                top: -8px;
-                bottom: auto;
-                border: 32px solid;
-                border-color: #41403e transparent transparent transparent;
-              }
-              &::after {
-                content: " ";
-                position: absolute;
-                width: 0;
-                height: 0;
-                left: -20px;
-                right: auto;
-                top: 0px;
-                bottom: auto;
-                border: 22px solid;
-                border-color: $commentColor transparent transparent transparent;
-              }
-              div.talktext {
-                padding: 1em;
-                text-align: left;
-                line-height: 1.5em;
-                ul {
-                  margin-top: 1rem;
-                  li {
-                    margin: 0.5rem 0;
-                    display: flex;
-                    a {
-                      text-decoration: none;
-                      color: $fontColor;
-                      font-size: $pFontSize;
-                      &:hover {
-                        color: $hoverColor;
-                      }
+            div.talktext {
+              padding: 1em;
+              text-align: left;
+              line-height: 1.5em;
+              ul {
+                margin-top: 1rem;
+                li {
+                  margin: 0.5rem 0;
+                  display: flex;
+                  a {
+                    text-decoration: none;
+                    color: $fontColor;
+                    font-size: $pFontSize;
+                    &:hover {
+                      color: $hoverColor;
                     }
-                    p {
-                      margin: 0 0.5rem;
-                    }
+                  }
+                  p {
+                    margin: 0 0.5rem;
                   }
                 }
               }
@@ -385,6 +392,25 @@ body {
             align-items: center;
             margin: 2rem 0;
             font-size: $pFontSize;
+            a {
+              padding: 1.5rem;
+              width: inherit;
+              height: inherit;
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              i {
+                margin-right: 1rem;
+                color: yellow;
+                font-size: $h1FontSize;
+              }
+
+              text-decoration: none;
+              color: white;
+              background-color: black;
+              border-radius: 10px;
+              font-size: $pFontSize;
+            }
           }
         }
       }
@@ -611,52 +637,62 @@ body {
 }
 
 @media screen and (max-width: 700px) {
-  div.wrap {
-    overflow-x: auto;
-    nav {
-      ul {
-        position: absolute;
-        top: 80%;
-        left: 0;
-        right: 0;
-        background-color: $navColor;
-        flex-direction: column;
-        padding-left: 1rem;
-        li {
-          position: relative;
-          &:hover {
-            div.dropdown_menu {
-              min-width: 110vw;
-              display: block;
-              position: absolute;
-              left: -20px;
-              background-color: $navColor;
-              ul {
-                display: flex;
-                flex-direction: column;
+  body {
+    div.wrap {
+      nav {
+        ul {
+          position: absolute;
+          top: 80%;
+          left: 0;
+          right: 0;
+          background-color: $navColor;
+          flex-direction: column;
+          padding-left: 1rem;
+          li {
+            position: relative;
+            &:hover {
+              div.dropdown_menu {
+                min-width: 110vw;
+                display: block;
+                position: absolute;
+                left: -20px;
+                background-color: $navColor;
+                ul {
+                  display: flex;
+                  flex-direction: column;
 
-                li {
-                  margin: 0;
-                  padding: 0;
-                  a {
-                    font-size: 1.5rem;
+                  li {
+                    margin: 0;
+                    padding: 0;
+                    a {
+                      font-size: 1.5rem;
+                    }
                   }
                 }
               }
             }
-          }
-          div.dropdown_menu {
-            display: none;
+            div.dropdown_menu {
+              display: none;
+            }
           }
         }
       }
-    }
-    div.message {
-      top: 210px !important;
-      left: 30px !important;
-    }
-    div.main {
-      margin-top: 300px !important;
+      div.message {
+        top: 210px !important;
+        left: 30px !important;
+      }
+      div.main {
+        margin-top: 300px !important;
+        min-width: 360px;
+      }
+      div.comment {
+        min-width: 360px;
+        div.talk-bubble,
+        div.tri-right,
+        div.left-top {
+          min-width: 300px;
+        }
+      }
     }
   }
 }

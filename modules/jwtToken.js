@@ -17,6 +17,20 @@ const jwtToken = {
       return next(errorMessage(500, "Server error"));
     }
   },
+  googleSendToken: (userData, statusCode, res, next) => {
+    try {
+      const token = jwt.sign(userData, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_DAY,
+      });
+      return res
+        .status(statusCode)
+        .redirect(
+          `http://localhost:3000/callback/token?${token}#${userData._id}`
+        );
+    } catch (err) {
+      return next(errorMessage(500, "Server error"));
+    }
+  },
   checkToken: async (req, res, next) => {
     // 確認 token 是否存在
     let token;

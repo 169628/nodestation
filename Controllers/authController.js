@@ -90,7 +90,7 @@ const authController = {
     }
   },
   googleCallback: (req, res, next) => {
-    jwtToken.sendToken(req.user, 200, res, next);
+    return jwtToken.googleSendToken(req.user, 200, res, next);
   },
 };
 

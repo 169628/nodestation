@@ -42,4 +42,16 @@ router.get("/score", function (req, res, next) {
   res.render("score");
 });
 
+router.get("/author", function (req, res, next) {
+  res.render("author");
+});
+
+router.get("/article", function (req, res, next) {
+  res.render("article");
+});
+
+router.get("/callback/:token", function (req, res, next) {
+  res.render("loading");
+});
+
 module.exports = router;

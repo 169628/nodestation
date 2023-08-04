@@ -19,13 +19,13 @@
         <div class="title">
           <h1>{{ title }}</h1>
           <template v-if="login" >
-          <button  v-if="checkSave" v-on:click="btn_delete_save(articleId)" class="my-button bubbly-button">
-            <span class="btn"></span> 刪除收藏
-          </button>
-          <button v-else v-on:click="btn_save(articleId)" class="my-button bubbly-button">
-            <span class="btn"></span> 收藏
-          </button>
-        </template>
+            <button  v-if="checkSave" v-on:click="btn_delete_save(articleId)" class="my-button bubbly-button">
+              <span class="btn"></span> 刪除收藏
+            </button>
+            <button v-else v-on:click="btn_save(articleId)" class="my-button bubbly-button">
+              <span class="btn"></span> 收藏
+            </button>
+          </template>
         </div>
         <p>{{ content }}</p>
       </div>
@@ -33,16 +33,12 @@
         <p>作者:</p>
         <a v-on:click="btn_author(authorId)" href="#">{{author}}</a>
       </div>
-      <button type="button" v-on:click="btn_next" class="my-button bubbly-button">
-        <span class="btn"></span> 下一則
-      </button>
       <div class="score">
         <p>評分: {{score || 0}} 分</p>
         <button v-on:click="btn_score" class="my-button bubbly-button">
           <span class="btn"></span> 我要去評分
         </button>
       </div>
-
       <div class="comment">
         <div class="talk-bubble tri-right left-top">
           <div class="talktext">
@@ -63,6 +59,7 @@
     <script>
       $(document).ready(async () => {
         const login = localStorage.getItem("Authorization");
+        const articleId = localStorage.getItem("articleId");
         let saveList = [];
         if (login) {
           const token = {
@@ -74,18 +71,18 @@
           saveList = saveResult.data.data.saved;
         }
         axios
-          .get("/api/article")
+          .get(`/api/article/one/${articleId}`)
           .then((res) => {
             const app = Vue.createApp().component("main_article", {
               data() {
                 return {
                   login: login,
-                  articleId: res.data.data._id,
+                  articleId: articleId,
                   saveList: saveList,
                   title: res.data.data.title,
                   content: res.data.data.content,
-                  author: res.data.data.user_id[0].username,
-                  authorId: res.data.data.user_id[0]._id,
+                  author: res.data.data.username,
+                  authorId: res.data.data.user_id,
                   score: res.data.data.score,
                   commentArray:
                     res.data.data.comment.length == 0
@@ -94,9 +91,6 @@
                 };
               },
               methods: {
-                btn_next() {
-                  location.reload();
-                },
                 btn_author(authorId) {
                   localStorage.setItem("authorId", JSON.stringify(authorId));
                   location.href = "/author";
@@ -123,10 +117,6 @@
                     .then((res) => {
                       alert("已收藏");
                       location.href = "/save";
-                    })
-                    .catch((err) => {
-                      alert("失敗，請重新嘗試");
-                      location.reload();
                     });
                 },
                 btn_delete_save(articleId) {
@@ -142,10 +132,6 @@
                     .then((res) => {
                       alert("已刪除");
                       location.href = "/save";
-                    })
-                    .catch((err) => {
-                      alert("失敗，請重新嘗試");
-                      location.reload();
                     });
                 },
               },
@@ -158,11 +144,11 @@
               },
               template: "#main_template",
             });
-
             app.mount("#app");
           })
           .catch((err) => {
-            alert("系統錯誤，請洽管理員");
+            const message = err.response.data.split("錯誤詳細描述")[0];
+            alert(message + "錯誤");
             history.back();
           });
       });

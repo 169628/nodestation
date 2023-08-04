@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("layout/header")%>
+    <title>首頁</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <%- include("layout/nav")%>
+      <div class="user">
+        <div id="app" class="main">
+          <main_author></main_author>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/x-template" id="main_template">
+      <div class="article">
+          <h1>{{name}}</h1>
+          <template v-if="login" >
+            <button  v-if="checkFollow" v-on:click="btn_delete_follow(authorId)" class="my-button bubbly-button">
+              <span class="btn"></span> 刪除追蹤
+            </button>
+            <button v-else v-on:click="btn_follow(authorId)" class="my-button bubbly-button">
+              <span class="btn"></span> 追蹤
+            </button>
+          </template>
+        </div>
+        <p>關於我: {{aboutMe}}</p>
+        <table>
+            <template v-if="articleArray.length != 0">
+                <tr v-for="item in articleArray" >
+                    <td><a v-on:click="btn_article(item._id)" href="#">{{item.title}}</a></td>
+                    <td>分數:{{item.score || 0}}分</td>
+                </tr>
+            </template>
+        </table>
+    </script>
+
+    <script>
+      $(document).ready(async () => {
+        const login = localStorage.getItem("Authorization");
+        const authorId = localStorage.getItem("authorId");
+        let followList = [];
+        if (login) {
+          const token = {
+            authorization: JSON.parse(localStorage.getItem("Authorization")),
+          };
+          const followResult = await axios.get("/api/user/follow", {
+            headers: token,
+          });
+          followList = followResult.data.data.follow;
+        }
+        axios
+          .get(`/api/article/${authorId}`)
+          .then((res) => {
+            const app = Vue.createApp().component("main_author", {
+              data() {
+                return {
+                  login: login,
+                  name: res.data.data.username,
+                  followList: followList,
+                  authorId: authorId,
+                  aboutMe:
+                    res.data.data.about_me == "null"
+                      ? ""
+                      : res.data.data.about_me,
+                  articleArray:
+                    res.data.data.article.length == 0
+                      ? []
+                      : res.data.data.article,
+                };
+              },
+              methods: {
+                btn_article(articleId) {
+                  localStorage.setItem("articleId", JSON.stringify(articleId));
+                  location.href = "/article";
+                },
+                btn_follow(authorId) {
+                  const token = {
+                    authorization: JSON.parse(
+                      localStorage.getItem("Authorization")
+                    ),
+                  };
+                  axios
+                    .post(
+                      `/api/user/follow/${authorId}`,
+                      {},
+                      { headers: token }
+                    )
+                    .then((res) => {
+                      alert("已追蹤");
+                      location.href = "/follow";
+                    });
+                },
+                btn_delete_follow(authorId) {
+                  const token = {
+                    authorization: JSON.parse(
+                      localStorage.getItem("Authorization")
+                    ),
+                  };
+                  axios
+                    .delete(`/api/user/follow/${authorId}`, {
+                      headers: token,
+                    })
+                    .then((res) => {
+                      alert("已刪除追蹤");
+                      location.href = "/follow";
+                    });
+                },
+              },
+              computed: {
+                checkFollow() {
+                  return this.followList.some((item) => {
+                    return item.follower_id == this.authorId;
+                  });
+                },
+              },
+              template: "#main_template",
+            });
+            app.mount("#app");
+          })
+          .catch((err) => {
+            const message = err.response.data.split("錯誤詳細描述")[0];
+            alert(message + "錯誤");
+            history.back();
+          });
+      });
+    </script>
+  </body>
+</html>

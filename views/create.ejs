@@ -7,31 +7,86 @@
   <body>
     <div class="wrap">
       <%- include("layout/nav")%>
-      <!-- <%- include("layout/message")%> -->
       <div class="create">
-        <div class="main">
-          <div class="title">
-            <label for="title">標題</label>
-            <input type="text" name="title" id="title" />
-          </div>
-          <div class="content">
-            <label for="article">內容</label>
-            <textarea
-              name="article"
-              id="article"
-              cols="10"
-              rows="10"
-            ></textarea>
-          </div>
-          <div class="submit">
-            <button class="my-button bubbly-button">
-              <span class="btn"></span> 新增文章
-            </button>
-          </div>
+        <div id="app" class="main">
+          <main_create></main_create>
         </div>
       </div>
-
-      <%- include("layout/footer")%>
     </div>
+
+    <script type="text/x-template" id="main_template">
+      <div class="title">
+        <label for="title">標題</label>
+        <input v-model="title" type="text" name="title" id="title" />
+      </div>
+      <div class="content">
+        <label for="article">內容</label>
+        <textarea
+        v-model="article"
+          name="article"
+          id="article"
+          cols="10"
+          rows="10"
+        ></textarea>
+      </div>
+      <div class="submit">
+        <button v-on:click="btn_create" class="my-button bubbly-button">
+          <span class="btn"></span> 新增文章
+        </button>
+      </div>
+    </script>
+
+    <script>
+      $(document).ready(() => {
+        const login = localStorage.getItem("Authorization");
+        if (login) {
+          const app = Vue.createApp().component("main_create", {
+            data() {
+              return {
+                title: "",
+                article: "",
+              };
+            },
+            methods: {
+              btn_create() {
+                const token = {
+                  authorization: JSON.parse(
+                    localStorage.getItem("Authorization")
+                  ),
+                };
+                axios
+                  .post(
+                    "/api/article",
+                    {
+                      title: this.title,
+                      article: this.article,
+                    },
+                    { headers: token }
+                  )
+                  .then((res) => {
+                    const articleId = res.data.data.article_id;
+                    localStorage.setItem(
+                      "articleId",
+                      JSON.stringify(articleId)
+                    );
+                    alert("新增成功");
+                    location.href = "/article";
+                  })
+                  .catch((err) => {
+                    const message = err.response.data.split("錯誤詳細描述")[0];
+                    alert(message + "新增失敗，請重新輸入!");
+                    location.reload();
+                  });
+              },
+            },
+            template: "#main_template",
+          });
+          app.mount("#app");
+        } else {
+          alert("請登入");
+          location.href = "/login";
+        }
+      });
+    </script>
   </body>
 </html>

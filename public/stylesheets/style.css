@@ -47,7 +47,7 @@ body div.wrap input {
   margin-left: 0.5rem;
   background-color: transparent;
   height: 40px;
-  width: 200px;
+  width: 300px;
   border: dashed 2px black;
   box-shadow: 20px 38px 34px -26px hsla(0, 0%, 0%, 0.2);
   border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
@@ -106,6 +106,10 @@ body div.wrap div.message {
   top: 130px;
   left: 500px;
   color: red;
+}
+body div.wrap div.loading {
+  margin-top: 250px;
+  text-align: center;
 }
 body div.wrap div.rating {
   display: flex;
@@ -194,32 +198,32 @@ body div.wrap div.homepage div.main div.author a {
 body div.wrap div.homepage div.main div.author a:hover {
   color: #f0f5f5;
 }
-body div.wrap div.homepage div.main div.info {
+body div.wrap div.homepage div.main div.score {
+  display: flex;
+  align-items: center;
+  padding-top: 2rem;
+  margin: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+body div.wrap div.homepage div.main div.score p {
+  margin: 0 0.5rem;
+}
+body div.wrap div.homepage div.main div.score button {
+  margin: 0 0.5rem;
+}
+body div.wrap div.homepage div.main div.comment {
   margin-top: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-body div.wrap div.homepage div.main div.info div.score {
-  padding-top: 2rem;
-  margin: 0.5rem;
-  display: flex;
-  align-items: center;
-}
-body div.wrap div.homepage div.main div.info div.score p {
-  margin: 0 0.5rem;
-}
-body div.wrap div.homepage div.main div.info div.score button {
-  margin: 0 0.5rem;
-}
-body div.wrap div.homepage div.main div.info div.comment {
   width: 46vw;
   padding: 1.5rem;
   margin-top: 1rem;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right,
-body div.wrap div.homepage div.main div.info div.comment div.left-top {
+body div.wrap div.homepage div.main div.comment div.talk-bubble,
+body div.wrap div.homepage div.main div.comment div.tri-right,
+body div.wrap div.homepage div.main div.comment div.left-top {
   margin: 20px;
   display: inline-block;
   position: relative;
@@ -228,9 +232,9 @@ body div.wrap div.homepage div.main div.info div.comment div.left-top {
   background-color: #73b7f8;
   border: 8px solid #41403e;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble::before,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right::before,
-body div.wrap div.homepage div.main div.info div.comment div.left-top::before {
+body div.wrap div.homepage div.main div.comment div.talk-bubble::before,
+body div.wrap div.homepage div.main div.comment div.tri-right::before,
+body div.wrap div.homepage div.main div.comment div.left-top::before {
   content: " ";
   position: absolute;
   width: 0;
@@ -242,9 +246,9 @@ body div.wrap div.homepage div.main div.info div.comment div.left-top::before {
   border: 32px solid;
   border-color: #41403e transparent transparent transparent;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble::after,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right::after,
-body div.wrap div.homepage div.main div.info div.comment div.left-top::after {
+body div.wrap div.homepage div.main div.comment div.talk-bubble::after,
+body div.wrap div.homepage div.main div.comment div.tri-right::after,
+body div.wrap div.homepage div.main div.comment div.left-top::after {
   content: " ";
   position: absolute;
   width: 0;
@@ -256,39 +260,39 @@ body div.wrap div.homepage div.main div.info div.comment div.left-top::after {
   border: 22px solid;
   border-color: #73b7f8 transparent transparent transparent;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext,
-body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext {
+body div.wrap div.homepage div.main div.comment div.talk-bubble div.talktext,
+body div.wrap div.homepage div.main div.comment div.tri-right div.talktext,
+body div.wrap div.homepage div.main div.comment div.left-top div.talktext {
   padding: 1em;
   text-align: left;
   line-height: 1.5em;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul,
-body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul {
+body div.wrap div.homepage div.main div.comment div.talk-bubble div.talktext ul,
+body div.wrap div.homepage div.main div.comment div.tri-right div.talktext ul,
+body div.wrap div.homepage div.main div.comment div.left-top div.talktext ul {
   margin-top: 1rem;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul li,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul li,
-body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul li {
+body div.wrap div.homepage div.main div.comment div.talk-bubble div.talktext ul li,
+body div.wrap div.homepage div.main div.comment div.tri-right div.talktext ul li,
+body div.wrap div.homepage div.main div.comment div.left-top div.talktext ul li {
   margin: 0.5rem 0;
   display: flex;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul li a,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul li a,
-body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul li a {
+body div.wrap div.homepage div.main div.comment div.talk-bubble div.talktext ul li a,
+body div.wrap div.homepage div.main div.comment div.tri-right div.talktext ul li a,
+body div.wrap div.homepage div.main div.comment div.left-top div.talktext ul li a {
   text-decoration: none;
   color: #550afe;
   font-size: 1.5rem;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul li a:hover,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul li a:hover,
-body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul li a:hover {
+body div.wrap div.homepage div.main div.comment div.talk-bubble div.talktext ul li a:hover,
+body div.wrap div.homepage div.main div.comment div.tri-right div.talktext ul li a:hover,
+body div.wrap div.homepage div.main div.comment div.left-top div.talktext ul li a:hover {
   color: #f0f5f5;
 }
-body div.wrap div.homepage div.main div.info div.comment div.talk-bubble div.talktext ul li p,
-body div.wrap div.homepage div.main div.info div.comment div.tri-right div.talktext ul li p,
-body div.wrap div.homepage div.main div.info div.comment div.left-top div.talktext ul li p {
+body div.wrap div.homepage div.main div.comment div.talk-bubble div.talktext ul li p,
+body div.wrap div.homepage div.main div.comment div.tri-right div.talktext ul li p,
+body div.wrap div.homepage div.main div.comment div.left-top div.talktext ul li p {
   margin: 0 0.5rem;
 }
 body div.wrap div.login {
@@ -360,6 +364,24 @@ body div.wrap div.register div.main ul li {
   align-items: center;
   margin: 2rem 0;
   font-size: 1.5rem;
+}
+body div.wrap div.register div.main ul li a {
+  padding: 1.5rem;
+  width: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+  font-size: 1.5rem;
+}
+body div.wrap div.register div.main ul li a i {
+  margin-right: 1rem;
+  color: yellow;
+  font-size: 3rem;
 }
 body div.wrap div.user {
   display: flex;
@@ -571,10 +593,7 @@ body div.wrap div.update div.main ul li {
   }
 }
 @media screen and (max-width: 700px) {
-  div.wrap {
-    overflow-x: auto;
-  }
-  div.wrap nav ul {
+  body div.wrap nav ul {
     position: absolute;
     top: 80%;
     left: 0;
@@ -583,35 +602,44 @@ body div.wrap div.update div.main ul li {
     flex-direction: column;
     padding-left: 1rem;
   }
-  div.wrap nav ul li {
+  body div.wrap nav ul li {
     position: relative;
   }
-  div.wrap nav ul li:hover div.dropdown_menu {
+  body div.wrap nav ul li:hover div.dropdown_menu {
     min-width: 110vw;
     display: block;
     position: absolute;
     left: -20px;
     background-color: #f0f5f5;
   }
-  div.wrap nav ul li:hover div.dropdown_menu ul {
+  body div.wrap nav ul li:hover div.dropdown_menu ul {
     display: flex;
     flex-direction: column;
   }
-  div.wrap nav ul li:hover div.dropdown_menu ul li {
+  body div.wrap nav ul li:hover div.dropdown_menu ul li {
     margin: 0;
     padding: 0;
   }
-  div.wrap nav ul li:hover div.dropdown_menu ul li a {
+  body div.wrap nav ul li:hover div.dropdown_menu ul li a {
     font-size: 1.5rem;
   }
-  div.wrap nav ul li div.dropdown_menu {
+  body div.wrap nav ul li div.dropdown_menu {
     display: none;
   }
-  div.wrap div.message {
+  body div.wrap div.message {
     top: 210px !important;
     left: 30px !important;
   }
-  div.wrap div.main {
+  body div.wrap div.main {
     margin-top: 300px !important;
+    min-width: 360px;
+  }
+  body div.wrap div.comment {
+    min-width: 360px;
+  }
+  body div.wrap div.comment div.talk-bubble,
+  body div.wrap div.comment div.tri-right,
+  body div.wrap div.comment div.left-top {
+    min-width: 300px;
   }
 }/*# sourceMappingURL=style.css.map */

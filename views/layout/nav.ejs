@@ -1,9 +1,14 @@
 <nav>
   <a href="/"><i class="fa-solid fa-house"></i> 首頁</a>
 
-  <ul>
-    <li><a href="/login">登入</a></li>
-    <li><a href="/register">加入會員</a></li>
+  <ul id="navbar">
+    <component_navbar></component_navbar>
+  </ul>
+</nav>
+
+<script type="text/x-template" id="navbar_template">
+
+  <template v-if="login" >
     <li>
       <a href="#">會員專區 <i class="fas fa-caret-down"></i> </a>
       <div class="dropdown_menu">
@@ -13,9 +18,39 @@
           <li><a href="/follow">查看"已追蹤"</a></li>
           <li><a href="/save">查看"已收藏"</a></li>
           <li><a href="/update">編輯個人資訊</a></li>
-          <li><a href="#">登出</a></li>
+          <li><a v-on:click="btn_logout" href="#">登出</a></li>
         </ul>
       </div>
     </li>
-  </ul>
-</nav>
+  </template>
+  <template v-else >
+    <li><a href="/login">登入</a></li>
+      <li><a href="/register">加入會員</a></li>
+  </template>
+</script>
+
+<script>
+  $(document).ready(async () => {
+    const login = localStorage.getItem("Authorization");
+    const navApp = Vue.createApp().component("component_navbar", {
+      data() {
+        return {
+          login: login,
+        };
+      },
+      methods: {
+        btn_logout() {
+          localStorage.removeItem("articleId");
+          localStorage.removeItem("authorId");
+          localStorage.removeItem("Authorization");
+          localStorage.removeItem("userId");
+          alert("已登出");
+          location.href = "/";
+        },
+      },
+      template: "#navbar_template",
+    });
+
+    navApp.mount("#navbar");
+  });
+</script>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include("layout/header")%>
+    <title>登入會員</title>
+  </head>
+  <body>
+    <div class="wrap"><%- include("layout/nav")%></div>
+    <script>
+      $(document).ready(() => {
+        const idURL = new URL(location.href);
+        const token = idURL.search.split("?")[1];
+        const userId = idURL.hash.split("#")[1];
+        localStorage.setItem(
+          "Authorization",
+          JSON.stringify("Bearer " + token)
+        );
+        localStorage.setItem("userId", JSON.stringify(userId));
+        alert("登入成功!");
+        location.href = "/";
+      });
+    </script>
+  </body>
+</html>

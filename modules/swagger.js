@@ -194,9 +194,37 @@ const apiDoc = {
                 example: {
                   message: "get saved article success",
                   data: {
-                    _id: 1035,
-                    username: "魯肉飯",
-                    saved: [],
+                    _id: 1036,
+                    username: "鳴人",
+                    saved: [
+                      {
+                        user_id: 1038,
+                        article_id: 2021,
+                        _id: 2021,
+                        title: "你快勒馬",
+                        content:
+                          "有一天張飛和關羽快樂的在草地上騎馬，關羽卻不知道他前方是懸崖\n\n張飛就對關羽大叫 : 「你快勒馬 ! 」\n\n關羽回頭就對張飛說 : 「我很快樂 ! 」\n\n於是關羽就掉下崖了....",
+                        score: 4,
+                      },
+                      {
+                        user_id: 1038,
+                        article_id: 2022,
+                        _id: 2022,
+                        title: "有点年紀的笑話",
+                        content:
+                          "有一天瞎子跟瘸子相約去騎車，\n\n瞎子騎車瘸子看路，騎到一半瘸子突然看到前面有個大深溝，\n\n他就對瞎子大喊：溝溝溝，\n\n瞎子回他：啊勒啊勒啊勒，\n\n然後兩人一起掉入深溝中....",
+                        score: 3,
+                      },
+                      {
+                        user_id: 1040,
+                        article_id: 2029,
+                        _id: 2029,
+                        title: "不要自稱筆者",
+                        content:
+                          "有一日上國文課\n老師說：「以後上網發言不要再隨便自稱“筆者”因為現在根本沒人用筆寫字。」\n學生反問：「那要怎麼稱呼?」\n老師說：「鍵人。」\n學生接著問：「那用滑鼠的人呢?」\n老師說：「叫鼠輩。」\n學生又問：「那智慧型手機都用觸控式的，又沒鍵盤、沒滑鼠、又該怎麼稱呼？」\n老師說：「叫觸生。」",
+                        score: null,
+                      },
+                    ],
                   },
                 },
               },
@@ -297,9 +325,22 @@ const apiDoc = {
                 example: {
                   message: "get follow success",
                   data: {
-                    _id: 1035,
-                    username: "魯肉飯",
-                    follow: [],
+                    _id: 1036,
+                    username: "鳴人",
+                    follow: [
+                      {
+                        _id: "64cca0ed5c526a96025d8f0c",
+                        user_id: 1036,
+                        follower_id: 1035,
+                        follow_name: "魯肉飯",
+                      },
+                      {
+                        _id: "64cca15c5c526a96025d8f24",
+                        user_id: 1036,
+                        follower_id: 1037,
+                        follow_name: "佐助",
+                      },
+                    ],
                   },
                 },
               },
@@ -387,7 +428,7 @@ const apiDoc = {
         tags: ["Auth"],
         summary: "登入",
         requestBody: {
-          description: 'mail 可用"admin@mail.com"，password 可用"123456"',
+          description: 'mail 可用"ranuto@mail.com"，password 可用"123456"',
           required: true,
           content: {
             "application/json": {

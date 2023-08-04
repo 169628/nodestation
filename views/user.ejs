@@ -7,50 +7,97 @@
   <body>
     <div class="wrap">
       <%- include("layout/nav")%>
-      <!-- <%- include("layout/message")%> -->
-
       <div class="user">
-        <div class="main">
-          <div class="article">
-            <h1>大明</h1>
-            <button class="my-button bubbly-button">
-              <span class="btn"></span> 追蹤
-            </button>
-          </div>
-          <p>關於我: 我是一隻小小小小鳥</p>
-          <table>
-            <tr>
-              <td><a href="#">蝸牛</a></td>
-              <td>分數:0分</td>
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td><a href="#">蝸牛</a></td>
-              <td>分數:0分</td>
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td><a href="#">蝸牛</a></td>
-              <td>分數:0分</td>
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-          </table>
+        <div id="app" class="main">
+          <main_user></main_user>
         </div>
       </div>
-
-      <%- include("layout/footer")%>
     </div>
+
+    <script type="text/x-template" id="main_template">
+      <div class="article">
+          <h1>{{name}}</h1>
+        </div>
+        <p>關於我: {{aboutMe}}</p>
+        <table>
+            <template v-if="articleArray.length != 0">
+                <tr v-for="item in articleArray" >
+                    <td><a v-on:click="btn_article(item._id)" href="#">{{item.title}}</a></td>
+                    <td>分數:{{item.score || 0}}分</td>
+                    <td>
+                      <button v-on:click="btn_delete_article(item._id)" class="my-button bubbly-button">
+                        <span class="btn"></span> 刪除
+                      </button>
+                    </td>
+                </tr>
+            </template>
+        </table>
+    </script>
+
+    <script>
+      $(document).ready(() => {
+        const login = localStorage.getItem("Authorization");
+        if (login) {
+          const userId = localStorage.getItem("userId");
+          axios
+            .get(`/api/article/${userId}`)
+            .then((res) => {
+              let author = res.data.data;
+              let article =
+                res.data.data.article.length == 0 ? [] : res.data.data.article;
+              const app = Vue.createApp().component("main_user", {
+                data() {
+                  return {
+                    name: author.username,
+                    aboutMe: author.about_me == "null" ? "" : author.about_me,
+                    articleArray: article,
+                  };
+                },
+                methods: {
+                  btn_article(articleId) {
+                    localStorage.setItem(
+                      "articleId",
+                      JSON.stringify(articleId)
+                    );
+                    location.href = "/article";
+                  },
+                  btn_delete_article(articleId) {
+                    const token = {
+                      authorization: JSON.parse(
+                        localStorage.getItem("Authorization")
+                      ),
+                    };
+                    axios
+                      .delete(`/api/article/${articleId}`, { headers: token })
+                      .then((res) => {
+                        if (res.status === 204) {
+                          alert("已刪除文章");
+                          location.reload();
+                        }
+                      })
+                      .catch((err) => {
+                        const message =
+                          err.response.data.split("錯誤詳細描述")[0];
+                        alert(message + "刪除失敗，請洽管理員!");
+                        location.reload();
+                      });
+                  },
+                },
+                template: "#main_template",
+              });
+
+              app.mount("#app");
+            })
+            .catch((err) => {
+              const message = err.response.data.split("錯誤詳細描述")[0];
+              alert(message + "錯誤");
+              history.back();
+            });
+        } else {
+          alert("請登入");
+          location.href = "/login";
+        }
+      });
+    </script>
   </body>
 </html>

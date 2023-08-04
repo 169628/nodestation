@@ -7,44 +7,88 @@
   <body>
     <div class="wrap">
       <%- include("layout/nav")%>
-      <!-- <%- include("layout/message")%> -->
 
       <div class="follow">
-        <div class="main">
-          <h1>已追蹤作者</h1>
-          <table>
-            <tr>
-              <td><a href="#">大明</a></td>
-
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td><a href="#">大明</a></td>
-
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td><a href="#">大明</a></td>
-
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-          </table>
+        <div id="app" class="main">
+          <main_follow></main_follow>
         </div>
       </div>
-
-      <%- include("layout/footer")%>
     </div>
+
+    <script type="text/x-template" id="main_template">
+      <h1>已追蹤作者</h1>
+          <table>
+          <template v-if="followArray.length != 0">
+            <tr v-for="item in followArray">
+              <td><a v-on:click="btn_author(item.follower_id)" href="#">{{item.follow_name}}</a></td>
+
+              <td>
+                <button v-on:click="btn_delete_follow(item.follower_id)" class="my-button bubbly-button">
+                  <span class="btn"></span> 刪除
+                </button>
+              </td>
+            </tr>
+          </template>
+          </table>
+    </script>
+
+    <script>
+      $(document).ready(() => {
+        const login = localStorage.getItem("Authorization");
+        if (login) {
+          const token = {
+            authorization: JSON.parse(localStorage.getItem("Authorization")),
+          };
+          axios
+            .get("/api/user/follow", { headers: token })
+            .then((res) => {
+              const followList = res.data.data.follow;
+              const app = Vue.createApp().component("main_follow", {
+                data() {
+                  return {
+                    followArray: followList,
+                  };
+                },
+                methods: {
+                  btn_delete_follow(authorId) {
+                    const token = {
+                      authorization: JSON.parse(
+                        localStorage.getItem("Authorization")
+                      ),
+                    };
+                    axios
+                      .delete(`/api/user/follow/${authorId}`, {
+                        headers: token,
+                      })
+                      .then((res) => {
+                        alert("已刪除追蹤");
+                        location.href = "/follow";
+                      })
+                      .catch((err) => {
+                        alert("失敗，請重新嘗試");
+                        location.reload();
+                      });
+                  },
+                  btn_author(authorId) {
+                    localStorage.setItem("authorId", JSON.stringify(authorId));
+                    location.href = "/author";
+                  },
+                },
+                template: "#main_template",
+              });
+
+              app.mount("#app");
+            })
+            .catch((err) => {
+              const message = err.response.data.split("錯誤詳細描述")[0];
+              alert(message + "錯誤");
+              history.back();
+            });
+        } else {
+          alert("請登入");
+          location.href = "/login";
+        }
+      });
+    </script>
   </body>
 </html>

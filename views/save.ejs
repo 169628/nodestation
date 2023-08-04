@@ -7,44 +7,91 @@
   <body>
     <div class="wrap">
       <%- include("layout/nav")%>
-      <!-- <%- include("layout/message")%> -->
 
       <div class="save">
-        <div class="main">
-          <h1>已收藏笑話</h1>
-          <table>
-            <tr>
-              <td><a href="#">蝸牛</a></td>
-              <td>分數:0分</td>
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td><a href="#">蝸牛</a></td>
-              <td>分數:0分</td>
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <td><a href="#">蝸牛</a></td>
-              <td>分數:0分</td>
-              <td>
-                <button class="my-button bubbly-button">
-                  <span class="btn"></span> 刪除
-                </button>
-              </td>
-            </tr>
-          </table>
+        <div id="app" class="main">
+          <main_save></main_save>
         </div>
       </div>
-
-      <%- include("layout/footer")%>
     </div>
+
+    <script type="text/x-template" id="main_template">
+      <h1>已收藏笑話</h1>
+          <table>
+            <template v-if="saveArray.length != 0">
+            <tr v-for="item in saveArray" >
+              <td><a v-on:click="btn_article(item.article_id)" href="#">{{item.title}}</a></td>
+              <td>分數:{{item.score || 0}}分</td>
+              <td>
+                <button v-on:click="btn_delete_save(item.article_id)" class="my-button bubbly-button">
+                  <span class="btn"></span> 刪除
+                </button>
+              </td>
+            </tr>
+          </template>
+          </table>
+    </script>
+
+    <script>
+      $(document).ready(() => {
+        const login = localStorage.getItem("Authorization");
+        if (login) {
+          const token = {
+            authorization: JSON.parse(localStorage.getItem("Authorization")),
+          };
+          axios
+            .get("/api/user/article", { headers: token })
+            .then((res) => {
+              const saveList = res.data.data.saved;
+              const app = Vue.createApp().component("main_save", {
+                data() {
+                  return {
+                    saveArray: saveList,
+                  };
+                },
+                methods: {
+                  btn_delete_save(articleId) {
+                    const token = {
+                      authorization: JSON.parse(
+                        localStorage.getItem("Authorization")
+                      ),
+                    };
+                    axios
+                      .delete(`/api/user/article/${articleId}`, {
+                        headers: token,
+                      })
+                      .then((res) => {
+                        alert("已刪除");
+                        location.href = "/save";
+                      })
+                      .catch((err) => {
+                        alert("失敗，請重新嘗試");
+                        location.reload();
+                      });
+                  },
+                  btn_article(articleId) {
+                    localStorage.setItem(
+                      "articleId",
+                      JSON.stringify(articleId)
+                    );
+                    location.href = "/article";
+                  },
+                },
+                template: "#main_template",
+              });
+
+              app.mount("#app");
+            })
+            .catch((err) => {
+              const message = err.response.data.split("錯誤詳細描述")[0];
+              alert(message + "錯誤");
+              history.back();
+            });
+        } else {
+          alert("請登入");
+          location.href = "/login";
+        }
+      });
+    </script>
   </body>
 </html>

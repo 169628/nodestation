@@ -7,40 +7,107 @@
   <body>
     <div class="wrap">
       <%- include("layout/nav")%>
-      <!-- <%- include("layout/message")%> -->
       <div class="create">
-        <div class="main">
-          <p>為"蝸牛"評分</p>
+        <div id="app" class="main">
+          <main_score></main_score>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/x-template" id="main_template">
+      <p>為"{{title}}"評分</p>
           <div class="rating">
-            <input type="radio" name="rating" id="rating-5" />
+            <input type="radio" name="rating" id="rating-5" v-model="radioAnswer" value="5" />
             <label for="rating-5"></label>
-            <input type="radio" name="rating" id="rating-4" />
+            <input type="radio" name="rating" id="rating-4" v-model="radioAnswer" value="4" />
             <label for="rating-4"></label>
-            <input type="radio" name="rating" id="rating-3" />
+            <input type="radio" name="rating" id="rating-3" v-model="radioAnswer" value="3" />
             <label for="rating-3"></label>
-            <input type="radio" name="rating" id="rating-2" />
+            <input type="radio" name="rating" id="rating-2" v-model="radioAnswer" value="2" />
             <label for="rating-2"></label>
-            <input type="radio" name="rating" id="rating-1" />
+            <input type="radio" name="rating" id="rating-1" v-model="radioAnswer" value="1" />
             <label for="rating-1"></label>
           </div>
+        <template v-if="login" >
           <div class="content">
             <label for="comment">留言</label>
             <textarea
+            v-model="comment"
               name="comment"
               id="comment"
               cols="10"
               rows="10"
             ></textarea>
           </div>
+        </template>
           <div class="submit">
-            <button class="my-button bubbly-button">
+            <button v-on:click="btn_submit" class="my-button bubbly-button">
               <span class="btn"></span> 送出
             </button>
           </div>
-        </div>
-      </div>
+    </script>
 
-      <%- include("layout/footer")%>
-    </div>
+    <script>
+      $(document).ready(() => {
+        const login = localStorage.getItem("Authorization");
+        const articleId = localStorage.getItem("articleId");
+        axios
+          .get(`/api/article/one/${articleId}`)
+          .then((res) => {
+            let article = res.data.data;
+            const app = Vue.createApp().component("main_score", {
+              data() {
+                return {
+                  login: login,
+                  title: article.title,
+                  radioAnswer: "",
+                  comment: "",
+                };
+              },
+              methods: {
+                btn_submit() {
+                  if (!this.radioAnswer && !this.comment) {
+                    return alert("請填寫後送出");
+                  }
+                  if (this.radioAnswer) {
+                    axios.post(`/api/article/score/${articleId}`, {
+                      score: this.radioAnswer,
+                    });
+                  }
+                  if (this.comment) {
+                    if (login) {
+                      const token = {
+                        authorization: JSON.parse(
+                          localStorage.getItem("Authorization")
+                        ),
+                      };
+                      axios.post(
+                        `/api/article/comment/${articleId}`,
+                        {
+                          content: this.comment,
+                        },
+                        { headers: token }
+                      );
+                    } else {
+                      alert("請登入");
+                      location.href = "/login";
+                    }
+                  }
+                  alert("已送出");
+                  location.href = "/article";
+                },
+              },
+              template: "#main_template",
+            });
+
+            app.mount("#app");
+          })
+          .catch((err) => {
+            const message = err.response.data.split("錯誤詳細描述")[0];
+            alert(message + "錯誤");
+            history.back();
+          });
+      });
+    </script>
   </body>
 </html>
