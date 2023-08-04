@@ -54,12 +54,11 @@
         axios
           .get(`/api/article/one/${articleId}`)
           .then((res) => {
-            let article = res.data.data;
             const app = Vue.createApp().component("main_score", {
               data() {
                 return {
                   login: login,
-                  title: article.title,
+                  title: res.data.data.title,
                   radioAnswer: "",
                   comment: "",
                 };
