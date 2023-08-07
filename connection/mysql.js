@@ -1,12 +1,12 @@
 const mysql = require("mysql");
-const config = require("config");
+const dotenv = require("dotenv");
 
 const pool = mysql.createPool({
-  host: config.get("HOST"),
-  user: config.get("USER"),
-  password: config.get("PASSWORD"),
-  database: config.get("DATABASE"),
-  port: config.get("MYSQL_PORT"),
+  host: process.env.MYSQL_HOST,
+  user: process.env.MYSQL_USER,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE,
+  port: process.env.MYSQL_PORT,
 });
 
 let query = function (sql, values) {

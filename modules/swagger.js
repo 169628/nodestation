@@ -428,7 +428,7 @@ const apiDoc = {
         tags: ["Auth"],
         summary: "登入",
         requestBody: {
-          description: 'mail 可用"ranuto@mail.com"，password 可用"123456"',
+          description: 'mail 可用"naruto@mail.com"，password 可用"123456"',
           required: true,
           content: {
             "application/json": {
