@@ -25,7 +25,7 @@ const jwtToken = {
       return res
         .status(statusCode)
         .redirect(
-          `http://localhost:3000/callback/token?${token}#${userData._id}`
+          `${process.env.SERVER}/callback/token?${token}#${userData._id}`
         );
     } catch (err) {
       return next(errorMessage(500, "Server error"));
